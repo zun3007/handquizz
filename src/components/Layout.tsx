@@ -110,7 +110,7 @@ export const Layout = ({ children }: LayoutProps) => {
                 Leaderboard
               </Link>
               <Image
-                src='/fpt_logo.png'
+                src='https://fpt.edu.vn/Content/images/assets/Logo-FU-03.png'
                 alt='FPT University Logo'
                 height='40px'
                 mr={2}

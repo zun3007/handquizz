@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Text,
@@ -323,10 +323,11 @@ export const StudentCard = ({
       <Flex justifyContent='space-between' alignItems='center' mb={3}>
         <Box width='80px'>
           <Image
-            src='/fpt_logo.png'
+            src={`${import.meta.env.BASE_URL}fpt_logo.png`}
             alt='FPT University Logo'
             height='35px'
             objectFit='contain'
+            fallbackSrc='https://fpt.edu.vn/Content/images/assets/Logo-FU-03.png'
           />
         </Box>
         <Box textAlign='right'>

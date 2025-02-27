@@ -28,9 +28,13 @@ export const HomePage = () => {
     if (!quiz) return 0;
 
     let correctCount = 0;
-    const { questions, answers } = quiz.quizState;
+    const { questions, answers, currentQuestionIndex } = quiz.quizState;
 
+    // Only count answers for questions that have been confirmed (not including current question)
     for (let i = 0; i < questions.length; i++) {
+      // Skip the current question as it hasn't been confirmed yet
+      if (i === currentQuestionIndex) continue;
+
       if (
         answers[i] !== null &&
         answers[i] === questions[i].correctAnswerIndex

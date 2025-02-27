@@ -23,6 +23,25 @@ export const HomePage = () => {
     }
   };
 
+  // Calculate current score based on answers provided so far
+  const calculateCurrentScore = () => {
+    if (!quiz) return 0;
+
+    let correctCount = 0;
+    const { questions, answers } = quiz.quizState;
+
+    for (let i = 0; i < questions.length; i++) {
+      if (
+        answers[i] !== null &&
+        answers[i] === questions[i].correctAnswerIndex
+      ) {
+        correctCount++;
+      }
+    }
+
+    return correctCount;
+  };
+
   // Show the appropriate component based on the current state
   const renderContent = () => {
     if (!student) {
@@ -48,15 +67,21 @@ export const HomePage = () => {
       quiz?.currentQuestion &&
       typeof quiz.quizState.currentQuestionIndex === 'number'
     ) {
+      // Calculate current score for display
+      const currentScore = calculateCurrentScore();
+      const totalQuestions = quiz.quizState.questions.length;
+
       return (
         <Quiz
           currentQuestion={quiz.currentQuestion}
           currentQuestionIndex={quiz.quizState.currentQuestionIndex}
-          totalQuestions={quiz.quizState.questions.length}
+          totalQuestions={totalQuestions}
           selectedAnswerIndex={quiz.quizState.selectedAnswerIndex}
           onSelectAnswer={quiz.selectAnswer}
           onNextQuestion={quiz.goToNextQuestion}
           onPreviousQuestion={quiz.goToPreviousQuestion}
+          score={currentScore}
+          totalPossibleScore={totalQuestions}
         />
       );
     }

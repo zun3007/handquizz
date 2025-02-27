@@ -10,9 +10,22 @@ export const api = {
    */
   async saveQuizAttempt(attempt: QuizAttempt): Promise<string | null> {
     try {
+      // Map the camelCase properties to snake_case for Supabase
+      const dbAttempt = {
+        user_name: attempt.userName,
+        student_id: attempt.studentId,
+        started_at: attempt.startedAt,
+        completed_at: attempt.completedAt,
+        score: attempt.score,
+        time_taken: attempt.timeTaken,
+        answers: attempt.answers,
+        is_completed: attempt.isCompleted,
+        question_ids: attempt.questionIds,
+      };
+
       const { data, error } = await supabase
         .from('quiz_attempts')
-        .insert(attempt)
+        .insert(dbAttempt)
         .select('id')
         .single();
 
@@ -33,7 +46,17 @@ export const api = {
    */
   async saveToLeaderboard(entry: LeaderboardEntry): Promise<boolean> {
     try {
-      const { error } = await supabase.from('leaderboard').insert(entry);
+      // Map the camelCase properties to snake_case for Supabase
+      const dbEntry = {
+        name: entry.name,
+        student_id: entry.studentId,
+        score: entry.score,
+        time_taken: entry.timeTaken,
+        date: entry.date,
+        attempt_id: entry.attemptId,
+      };
+
+      const { error } = await supabase.from('leaderboard').insert(dbEntry);
 
       if (error) {
         console.error('Error saving to leaderboard:', error);
@@ -64,6 +87,7 @@ export const api = {
         return [];
       }
 
+      // Convert snake_case to camelCase when returning data
       return data.map((entry) => ({
         id: entry.id,
         name: entry.name,
@@ -104,6 +128,7 @@ export const api = {
         return [];
       }
 
+      // Convert snake_case to camelCase when returning data
       return data.map((entry) => ({
         id: entry.id,
         name: entry.name,
